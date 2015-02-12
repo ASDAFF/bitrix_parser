@@ -42,7 +42,7 @@ class itbiz_parser extends \CModule
 	{
 		global $errors;
 
-		COption::RemoveOption($this->getModuleId());
+		//COption::RemoveOption($this->getModuleId());
 		\Bitrix\Main\ModuleManager::unRegisterModule($this->MODULE_ID);
 
 		return true;
@@ -67,9 +67,8 @@ class itbiz_parser extends \CModule
 			{
 				$this->InstallDB();
 				$this->InstallFiles();
-
+                RegisterModuleDependences('main', 'OnAdminListDisplay', 'itbiz.parser', 'parser_interface', 'OnAdminListDisplayHandler');
 				$GLOBALS['errors'] = $this->errors;
-
 				$APPLICATION->IncludeAdminFile(Loc::getMessage('INSTALL_TITLE'), realpath(__DIR__) . '/step.php');
 			}
 		}
@@ -83,6 +82,7 @@ class itbiz_parser extends \CModule
 		{
 			$this->UnInstallDB(array());
 			$this->UnInstallFiles();
+            UnRegisterModuleDependences('main', 'OnAdminListDisplay', 'itbiz.parser', 'parser_interface', 'OnAdminListDisplayHandler');
 			$GLOBALS['errors'] = $this->errors;
 			$APPLICATION->IncludeAdminFile(Loc::getMessage('UNINSTALL_TITLE'), realpath(__DIR__) . '/unstep.php');
 		}
