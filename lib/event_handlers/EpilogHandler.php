@@ -1,5 +1,5 @@
 <?php
-namespace CustomProjectModule\EventHandlers;
+namespace Itbiz\Parser;
 
 class EpilogHandler {
 	public static function set404Status ()

@@ -10,6 +10,7 @@ class itbiz_parser extends \CModule
 	var $MODULE_VERSION_DATE;
 	var $MODULE_NAME;
 	var $MODULE_DESCRIPTION;
+	var $PARTNER_NAME;
 
 	var $errors = false;
 
@@ -20,6 +21,7 @@ class itbiz_parser extends \CModule
 		$this->MODULE_VERSION = $moduleVersion['VERSION'];
 		$this->MODULE_VERSION_DATE = $moduleVersion['VERSION_DATE'];
 		$this->MODULE_NAME = Loc::getMessage('MODULE_NAME');
+		$this->PARTNER_NAME = "Мигунов Игорь";
 		$this->MODULE_DESCRIPTION = Loc::getMessage('MODULE_DESCRIPTION');
 	}
 
@@ -67,7 +69,8 @@ class itbiz_parser extends \CModule
 			{
 				$this->InstallDB();
 				$this->InstallFiles();
-                RegisterModuleDependences('main', 'OnAdminListDisplay', 'itbiz.parser', 'parser_interface', 'OnAdminListDisplayHandler');
+                RegisterModuleDependences('main', 'OnAdminListDisplay', 'itbiz.parser', 'Itbiz\\Parser\\ParserInterface', 'OnAdminListDisplayHandler');
+                RegisterModuleDependences('main', 'OnBeforeProlog', 'itbiz.parser', 'Itbiz\\Parser\\ParserActions', 'OnBeforePrologHandler');
 				$GLOBALS['errors'] = $this->errors;
 				$APPLICATION->IncludeAdminFile(Loc::getMessage('INSTALL_TITLE'), realpath(__DIR__) . '/step.php');
 			}
@@ -82,7 +85,8 @@ class itbiz_parser extends \CModule
 		{
 			$this->UnInstallDB(array());
 			$this->UnInstallFiles();
-            UnRegisterModuleDependences('main', 'OnAdminListDisplay', 'itbiz.parser', 'parser_interface', 'OnAdminListDisplayHandler');
+            UnRegisterModuleDependences('main', 'OnAdminListDisplay', 'itbiz.parser', 'Itbiz\\Parser\\ParserInterface', 'OnAdminListDisplayHandler');
+            UnRegisterModuleDependences('main', 'OnBeforeProlog', 'itbiz.parser', 'Itbiz\\Parser\\ParserActions', 'OnBeforePrologHandler');
 			$GLOBALS['errors'] = $this->errors;
 			$APPLICATION->IncludeAdminFile(Loc::getMessage('UNINSTALL_TITLE'), realpath(__DIR__) . '/unstep.php');
 		}
